@@ -1,34 +1,42 @@
 import random
 
 members = [
-    'Андрей',
-    'Дмитрий',
     'Кирилл',
     'Лилия',
-    'Ринат',
-    'Сергей',
     'Александр',
-    'Резеда'
+    'Сергей',
+    'Андрей',
+    'Резеда',
+    'Дмитрий',
+    'Миша',
+    'Полина',
 ]
 
 random.shuffle(members)
 
 groups = []
-for i in  range(0, len(members), 2):
-    groups.append(members[i:i+2])
+for i in range(0, len(members), 2):
+    group = members[i:i+2]
+    if len(group) == 1:
+        groups[-1].extend(group)
+    else:
+        groups.append(group)
 
-# print(groups)
-pros = [pair[1] for pair in groups]
-# print(pros)
-
+reviewers_count = len(groups)
+reviewers = [group[-1] for group in groups]
 
 while True:
-    random.shuffle(pros)
-    groups_with_review = list(zip(groups, pros))
-    for pair, pro in groups_with_review:
-        if pro in pair:
+    random.shuffle(reviewers)
+    groups_with_review = list(zip(groups, reviewers))
+    for group, reviewer in groups_with_review:
+        if reviewer in group:
             break
     else:
         break
 
-print(*groups_with_review, sep='\n')
+for no, (group, reviewer) in enumerate(groups_with_review, 1):
+    print('Группа {}\\'.format(no))
+    print('Лид: {}\\'.format(group[0]))
+    print('Про: {}\\'.format(', '.join(group[1:])))
+    print('Ревью: {}'.format(reviewer))
+    print()
